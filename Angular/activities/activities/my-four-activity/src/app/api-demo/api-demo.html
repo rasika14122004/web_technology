@@ -1,0 +1,14 @@
+<h2>User List</h2>
+
+<!-- 🔄 Loading Spinner -->
+<div *ngIf="loading" class="loader">
+  Loading...
+</div>
+
+
+<div *ngIf="!loading">
+  <div *ngFor="let user of users">
+    <h3>{{ user.name }}</h3>
+    <p>{{ user.email }}</p>
+  </div>
+</div>

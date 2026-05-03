@@ -1,0 +1,22 @@
+h2 {
+  text-align: center;
+}
+
+/* Loader */
+.loader {
+  text-align: center;
+  font-size: 20px;
+  color: blue;
+  margin-top: 50px;
+}
+
+/* User cards */
+.user-card {
+  width: 300px;
+  margin: 10px auto;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

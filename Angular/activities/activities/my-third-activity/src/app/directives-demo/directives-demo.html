@@ -1,0 +1,62 @@
+<h2>🎯 Angular Directives Demo</h2>
+
+
+<h3>1. *ngIf Example</h3>
+
+<button (click)="toggleBox()">Toggle Box</button>
+
+<div *ngIf="showBox" class="box">
+  This box is visible using *ngIf
+</div>
+
+<hr>
+
+
+<h3>2. *ngFor Example</h3>
+
+<div class="list">
+  <div *ngFor="let student of students" class="item">
+    {{ student }}
+  </div>
+</div>
+
+<hr>
+
+
+<h3>3. *ngSwitch Example</h3>
+
+<button (click)="changeColor('red')">Red</button>
+<button (click)="changeColor('green')">Green</button>
+<button (click)="changeColor('blue')">Blue</button>
+
+<div [ngSwitch]="color" class="box">
+
+  <div *ngSwitchCase="'red'" style="color: red;">Red Selected</div>
+  <div *ngSwitchCase="'green'" style="color: green;">Green Selected</div>
+  <div *ngSwitchCase="'blue'" style="color: blue;">Blue Selected</div>
+  <div *ngSwitchDefault>Select a color</div>
+
+</div>
+
+<hr>
+
+
+<h3>4. ngClass Example</h3>
+
+<button (click)="toggleActive()">Toggle Active</button>
+
+<div [ngClass]="{ 'active': isActive, 'inactive': !isActive }" class="box">
+  Class is changing using ngClass
+</div>
+
+<hr>
+
+
+<h3>5. ngStyle Example</h3>
+
+<div [ngStyle]="{
+  'background-color': isActive ? 'lightgreen' : 'lightcoral',
+  'padding': '10px'
+}" class="box">
+  Style is changing using ngStyle
+</div>

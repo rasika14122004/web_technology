@@ -1,0 +1,35 @@
+h2 {
+  text-align: center;
+}
+
+.box {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #333;
+}
+
+.list {
+  display: flex;
+  gap: 10px;
+}
+
+.item {
+  padding: 8px;
+  background: #eee;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: green;
+  color: white;
+}
+
+.inactive {
+  background-color: gray;
+  color: white;
+}
+
+button {
+  margin: 5px;
+  padding: 5px 10px;
+}
