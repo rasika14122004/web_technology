@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Management System</title>
+
+<style>
+body{
+ font-family:Arial;
+ text-align:center;
+ background:#dbeafe;
+}
+
+form{
+ background:white;
+ padding:20px;
+ width:350px;
+ margin:auto;
+ border-radius:10px;
+}
+
+input{
+ margin:8px;
+ padding:8px;
+ width:90%;
+}
+
+button{
+ padding:8px;
+ margin:5px;
+ background:blue;
+ color:white;
+ border:none;
+ cursor:pointer;
+}
+
+table{
+ margin:auto;
+ margin-top:20px;
+ border-collapse:collapse;
+ background:white;
+}
+
+td,th{
+ border:1px solid black;
+ padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+
+// ---------- ARRAY ----------
+let students=[];
+
+
+// ---------- HEADING ----------
+let title=document.createElement("h1");
+title.innerText="Student Management System";
+document.body.appendChild(title);
+
+
+// ---------- FORM ----------
+let form=document.createElement("form");
+
+let nameInput=document.createElement("input");
+nameInput.placeholder="Enter Name";
+
+let ageInput=document.createElement("input");
+ageInput.placeholder="Enter Age";
+
+let courseInput=document.createElement("input");
+courseInput.placeholder="Enter Course";
+
+let addBtn=document.createElement("button");
+addBtn.innerText="Add Student";
+addBtn.type="button";
+
+let colorBtn=document.createElement("button");
+colorBtn.innerText="Change Background";
+colorBtn.type="button";
+
+form.appendChild(nameInput);
+form.appendChild(ageInput);
+form.appendChild(courseInput);
+form.appendChild(addBtn);
+form.appendChild(colorBtn);
+
+document.body.appendChild(form);
+
+
+// ---------- TABLE ----------
+let table=document.createElement("table");
+
+let header=document.createElement("tr");
+
+["Name","Age","Course"].forEach(text=>{
+ let th=document.createElement("th");
+ th.innerText=text;
+ header.appendChild(th);
+});
+
+table.appendChild(header);
+document.body.appendChild(table);
+
+
+// ---------- FUNCTION ----------
+function displayStudents(){
+
+table.innerHTML="";
+
+table.appendChild(header);
+
+students.forEach(student=>{
+
+ let row=document.createElement("tr");
+
+ let name=document.createElement("td");
+ name.innerText=student.name;
+
+ let age=document.createElement("td");
+ age.innerText=student.age;
+
+ let course=document.createElement("td");
+ course.innerText=student.course;
+
+ row.appendChild(name);
+ row.appendChild(age);
+ row.appendChild(course);
+
+ table.appendChild(row);
+});
+}
+
+
+// ---------- EVENT : ADD ----------
+addBtn.onclick=function(){
+
+// Validation
+if(nameInput.value=="" ||
+   ageInput.value=="" ||
+   courseInput.value==""){
+   alert("Fill all fields");
+   return;
+}
+
+// OBJECT
+let student={
+ name:nameInput.value,
+ age:ageInput.value,
+ course:courseInput.value
+};
+
+// ARRAY PUSH
+students.push(student);
+
+// FUNCTION CALL
+displayStudents();
+
+// CLEAR INPUT
+nameInput.value="";
+ageInput.value="";
+courseInput.value="";
+};
+
+
+// ---------- EVENT : BACKGROUND CHANGE ----------
+colorBtn.onclick=function(){
+
+let colors=["lightblue","lightgreen","lightpink","lightyellow"];
+
+let random=Math.floor(Math.random()*colors.length);
+
+document.body.style.backgroundColor=colors[random];
+};
+
+</script>
+
+</body>
+</html>

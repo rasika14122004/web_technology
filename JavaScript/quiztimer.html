@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Digital Quiz & Timer App</title>
+<style>
+body{
+ font-family:Arial;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ min-height:100vh;
+ background:#dbeafe;
+ margin:0;
+}
+
+h1{
+ text-align:center;
+ margin-bottom:20px;
+}
+
+.container{
+ width:600px;
+ background:white;
+ padding:20px;
+ border-radius:10px;
+ box-shadow:0 0 15px gray;
+ text-align:center;
+}
+
+button{
+ padding:10px 15px;
+ margin:5px;
+ background:blue;
+ color:white;
+ border:none;
+ cursor:pointer;
+ border-radius:5px;
+}
+
+button:disabled{
+ background:gray;
+ cursor:not-allowed;
+}
+
+.options button{
+ display:block;
+ margin:8px auto;
+ width:80%;
+ background:#60a5fa;
+ border-radius:5px;
+}
+
+.options button.selected{
+ background:#f87171;
+ color:white;
+}
+
+.progress{
+ width:100%;
+ height:10px;
+ background:#e5e7eb;
+ margin:10px 0;
+ border-radius:5px;
+}
+
+.progress-inner{
+ width:0%;
+ height:100%;
+ background:#3b82f6;
+ border-radius:5px;
+ transition: width 0.3s;
+}
+
+h2{
+ margin-top:0;
+}
+</style>
+</head>
+<body>
+
+<script>
+// ---------- HEADER ----------
+let projectTitle = document.createElement("h1");
+projectTitle.innerText = "Digital Quiz & Timer App";
+document.body.appendChild(projectTitle);
+
+// ---------- QUESTIONS ----------
+let questions=[
+  {question:"Capital of India?", options:["Delhi","Mumbai","Kolkata","Chennai"], answer:"Delhi"},
+  {question:"Language in web browser?", options:["Java","C++","JavaScript","Python"], answer:"JavaScript"},
+  {question:"HTML full form?", options:["HyperText Markup Language","Home Tool Markup","Hyperlink Text","None"], answer:"HyperText Markup Language"}
+];
+
+let current=0;
+let selectedAnswers = Array(questions.length).fill(null);
+let score=0;
+let timePerQuestion=15; // 15 sec timer
+let timerId=null;
+
+// ---------- CONTAINER ----------
+let container=document.createElement("div");
+container.className="container";
+document.body.appendChild(container);
+
+// ---------- PROGRESS BAR ----------
+let progress=document.createElement("div");
+progress.className="progress";
+let progressInner=document.createElement("div");
+progressInner.className="progress-inner";
+progress.appendChild(progressInner);
+container.appendChild(progress);
+
+// ---------- DISPLAY FUNCTION ----------
+function displayQuestion(){
+ container.innerHTML="";
+ container.appendChild(progress);
+
+ if(current>=questions.length){
+   let result=document.createElement("h2");
+   result.innerText=`Quiz Completed! Score: ${score}/${questions.length}`;
+   container.appendChild(result);
+
+   let restart=document.createElement("button");
+   restart.innerText="Restart Quiz";
+   restart.onclick=function(){
+     current=0;
+     score=0;
+     selectedAnswers=Array(questions.length).fill(null);
+     displayQuestion();
+   }
+   container.appendChild(restart);
+   return;
+ }
+
+ // Timer
+ let timerDisplay=document.createElement("h3");
+ let timeLeft = timePerQuestion;
+ timerDisplay.innerText=`Time Left: ${timeLeft}s`;
+ container.appendChild(timerDisplay);
+
+ if(timerId) clearInterval(timerId);
+ timerId=setInterval(()=>{
+   timeLeft--;
+   timerDisplay.innerText=`Time Left: ${timeLeft}s`;
+   if(timeLeft<=0){
+     clearInterval(timerId);
+     autoNextQuestion(); // auto next on timer
+   }
+ },1000);
+
+ // Question
+ let q=document.createElement("h2");
+ q.innerText=questions[current].question;
+ container.appendChild(q);
+
+ // Options
+ let optionsDiv=document.createElement("div");
+ optionsDiv.className="options";
+ questions[current].options.forEach(opt=>{
+   let btn=document.createElement("button");
+   btn.innerText=opt;
+   if(selectedAnswers[current]===opt) btn.classList.add("selected");
+
+   btn.onclick=function(){
+     selectedAnswers[current]=opt;
+     Array.from(optionsDiv.children).forEach(b=>b.classList.remove("selected"));
+     btn.classList.add("selected");
+   }
+   optionsDiv.appendChild(btn);
+ });
+ container.appendChild(optionsDiv);
+
+ // Navigation
+ let nav=document.createElement("div");
+
+ let prev=document.createElement("button");
+ prev.innerText="Previous";
+ prev.disabled=(current===0);
+ prev.onclick=function(){
+   current--;
+   displayQuestion();
+ }
+ nav.appendChild(prev);
+
+ let next=document.createElement("button");
+ next.innerText=(current===questions.length-1)?"Submit":"Next";
+ next.onclick=manualNextQuestion;
+ nav.appendChild(next);
+
+ container.appendChild(nav);
+
+ // Update progress
+ progressInner.style.width = `${((current)/questions.length)*100}%`;
+}
+
+// ---------- MANUAL NEXT ----------
+function manualNextQuestion(){
+ if(selectedAnswers[current]===null){
+   alert("Please select an answer or wait for timer!");
+   return;
+ }
+ nextQuestion();
+}
+
+// ---------- AUTO NEXT ----------
+function autoNextQuestion(){
+ // If answer not selected, still move forward
+ nextQuestion();
+}
+
+// ---------- NEXT QUESTION LOGIC ----------
+function nextQuestion(){
+ if(current===questions.length-1){
+   // calculate score
+   score=0;
+   for(let i=0;i<questions.length;i++){
+     if(selectedAnswers[i]===questions[i].answer) score++;
+   }
+   current = questions.length; // show result
+ } else{
+   current++;
+ }
+ displayQuestion();
+}
+
+// INITIAL CALL
+displayQuestion();
+</script>
+</body>
+</html>
